@@ -12,6 +12,23 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
 
+fs.access('fbx_info.txt', fs.F_OK, function(err) {
+  if (err) {
+    fs.writeFile('fbx_info.txt', 'Just now, we have created this file', function (err) {
+      if (err) throw err;
+        console.log('fbx_info.txt created.')
+    })
+  } else {
+    console.log('fbx_info.txt already exist.')
+  }
+});
+
+var fbData = {
+  wan : '',
+  switch: '',
+  ethernet: ''
+}
+
 io.sockets.on('connection', function (socket) {
   setInterval(function () {
   var date = moment().format('hh:mm:ss')
@@ -20,7 +37,10 @@ io.sockets.on('connection', function (socket) {
   var regex = /(\ *(WAN|Ethernet|Switch)\ *(Ok||(100baseTX-FD))+\ *[0-9]*\ ko\/s\ *[0-9]*\ ko\/s)/g
   fs.readFile('fbx_info.txt', function(err, data) {
     var match = data.toString().match(regex)
-    socket.volatile.emit('dataSend', {time:String, text:match})
+    fbData.wan = match[0].match(/[0-9]*\ ko\/s/g)
+    fbData.ethernet = match[1].match(/[0-9]*\ ko\/s/g)
+    fbData.switch = match[2].match(/[0-9]*\ ko\/s/g)
+    socket.volatile.emit('dataSend', {time: String, fbData: fbData})
     })
   }, 1000)
 });

@@ -5,7 +5,26 @@
     <title>FB Tracker</title>
 </head>
 <body>
-<div id="data"></div>
+<div>
+    <h1 id="time"></h1>
+    <table>
+        <tr>
+            <td>WAN</td>
+            <td id="wan-up"></td>
+            <td id="wan-down"></td>
+        </tr>
+        <tr>
+            <td>Ethernet</td>
+            <td id="ethernet-up"></td>
+            <td id="ethernet-down"></td>
+        </tr>
+        <tr>
+            <td>Switch</td>
+            <td id="switch-up"></td>
+            <td id="switch-down"></td>
+        </tr>
+    </table>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script>
@@ -14,12 +33,13 @@
     var socket = io.connect('http://localhost:8080');
     // Quand on reçoit un message, on l'insère dans la page
     socket.on('dataSend', function(data) {
-        var string = data.time + '<br>';
-
-        for (var i in data.text) {
-            string += data.text[i]+ '<br>';
-        }
-        $('#data').html(string);
+        $('#time').html(data.time);
+        $('#wan-up').html(data.fbData.wan[0])
+        $('#wan-down').html(data.fbData.wan[1])
+        $('#ethernet-up').html(data.fbData.ethernet[0])
+        $('#ethernet-down').html(data.fbData.ethernet[1])
+        $('#switch-up').html(data.fbData.switch[0])
+        $('#switch-down').html(data.fbData.wan[1])
     });
 </script>
 </body>

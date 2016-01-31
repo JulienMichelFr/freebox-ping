@@ -3,11 +3,23 @@
 <head lang="fr">
     <meta charset="UTF-8">
     <title>FB Tracker</title>
+    <style>
+        td {
+            border: 2px solid black;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
 <div>
     <h1 id="time"></h1>
+    <h2 id="uptime"></h2>
     <table>
+        <tr>
+            <td style="border: none"></td>
+            <td>UP</td>
+            <td>DOWN</td>
+        </tr>
         <tr>
             <td>WAN</td>
             <td id="wan-up"></td>
@@ -34,6 +46,7 @@
     // Quand on reçoit un message, on l'insère dans la page
     socket.on('dataSend', function(data) {
         $('#time').html(data.time);
+        $('#uptime').html(data.uptime);
         $('#wan-up').html(data.fbData.wan[0])
         $('#wan-down').html(data.fbData.wan[1])
         $('#ethernet-up').html(data.fbData.ethernet[0])

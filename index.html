@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="fr">
+    <meta charset="UTF-8">
+    <title>FB Tracker</title>
+</head>
+<body>
+<div id="data"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script>
+
+    // Connexion à socket.io
+    var socket = io.connect('http://localhost:8080');
+    // Quand on reçoit un message, on l'insère dans la page
+    socket.on('dataSend', function(data) {
+        var string = data.time + '<br>';
+
+        for (var i in data.text) {
+            string += data.text[i]+ '<br>';
+        }
+        $('#data').html(string);
+    });
+</script>
+</body>
+</html>

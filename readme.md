@@ -11,6 +11,6 @@ Then go to localhost:8080
 
 ## TODO 
 - [ ] CLI
-- [ ] Possibility to change server port
+- [ ] Create a configuration file
 - [ ] Electron integration
 - [ ] Data graphs (Last minute, last hour, last day

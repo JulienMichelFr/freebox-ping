@@ -29,8 +29,8 @@ fs.access('fbx_info.txt', fs.F_OK, function (err) {
 
 io.sockets.on('connection', function (socket) {
   setInterval(function () {
-    var date = moment().format('hh:mm:ss');
-    var String = '==============' + date + '==============';
+    moment.locale('fr');
+    var String = moment().format('HH:mm:ss');
     new Download({mode: '755'}).get('http://192.168.0.254/pub/fbx_info.txt').dest('./').run();
     fs.readFile('fbx_info.txt', function (err, data) {
       var uptime = data.toString().match(uptimeRegex);

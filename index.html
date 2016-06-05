@@ -4,40 +4,81 @@
     <meta charset="UTF-8">
     <title>FB Tracker</title>
     <style>
-        td {
-            border: 2px solid black;
-            padding: 5px;
+        body {
+            font-family: 'Open Sans', sans-serif;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h3, p {
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-around;
+        }
+        .card {
+            width: 250px;
+            height: 250px;
+            border: 1px solid rgba(0,0,0,0.7);
+            text-align: center;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            height: 50px;
+            margin: 0;
+            line-height: 50px;
+        }
+
+        p.down {
+            font-size: 2.5em;
+            font-weight: 300;
+            height: 130px;
+            line-height: 130px;
+        }
+
+        p.up {
+            height: 65px;
+            font-size: 1.8em;
+            line-height: 65px;
         }
     </style>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
 </head>
 <body>
 <div>
-    <h1 id="time"></h1>
-    <h2 id="uptime"></h2>
-    <table>
-        <tr>
-            <td style="border: none"></td>
-            <td>UP</td>
-            <td>DOWN</td>
-        </tr>
-        <tr>
-            <td>WAN</td>
-            <td id="wan-up"></td>
-            <td id="wan-down"></td>
-        </tr>
-        <tr>
-            <td>Ethernet</td>
-            <td id="ethernet-up"></td>
-            <td id="ethernet-down"></td>
-        </tr>
-        <tr>
-            <td>Switch</td>
-            <td id="switch-up"></td>
-            <td id="switch-down"></td>
-        </tr>
-    </table>
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between">
+        <h1 style="display: inline-block"><span id="time"></span> <i class="fa fa-clock-o"></i></h1>
+        <h1 style="display: inline-block"><span id="uptime"></span> <i class="fa fa-hourglass-o"></i></h1>
+    </div>
+    <div class="container">
+        <div class="card" style="background-color: #03A9F4; color: white;">
+            <h3 class="card-title">WAN</h3>
+            <p class="down"><i class="fa fa-arrow-down"></i> <span id="wan-down"></span></p>
+            <p class="up"><span id="wan-up"></span> <i class="fa fa-arrow-up"></i></p>
+        </div>
+        <div class="card" style="background-color: #4CAF50; color: white;">
+            <h3 class="card-title">SWITCH</h3>
+            <p class="down"><i class="fa fa-arrow-down"></i> <span id="switch-down"></span> </p>
+            <p class="up"><span id="switch-up"></span> <i class="fa fa-arrow-up"></i></p>
+        </div>
+        <div class="card" style="background-color: #FF5252; color: white;">
+            <h3 class="card-title">ETHERNET</h3>
+            <p class="down"><i class="fa fa-arrow-up"></i> <span id="ethernet-down"></span> </p>
+            <p class="up"><span id="ethernet-up"></span> <i class="fa fa-arrow-up"></i></p>
+        </div>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script>
 
@@ -47,12 +88,12 @@
     socket.on('dataSend', function(data) {
         $('#time').html(data.time);
         $('#uptime').html(data.uptime);
-        $('#wan-up').html(data.fbData.wan[0]);
-        $('#wan-down').html(data.fbData.wan[1]);
-        $('#ethernet-up').html(data.fbData.ethernet[0]);
-        $('#ethernet-down').html(data.fbData.ethernet[1]);
-        $('#switch-up').html(data.fbData.switch[0]);
-        $('#switch-down').html(data.fbData.switch[1]);
+        $('#wan-up').html(data.fbData.wan[1]);
+        $('#wan-down').html(data.fbData.wan[0]);
+        $('#ethernet-up').html(data.fbData.ethernet[1]);
+        $('#ethernet-down').html(data.fbData.ethernet[0]);
+        $('#switch-up').html(data.fbData.switch[1]);
+        $('#switch-down').html(data.fbData.switch[0]);
     });
 </script>
 </body>
